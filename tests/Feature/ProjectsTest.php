@@ -50,4 +50,16 @@ class ProjectsTest extends TestCase
 
         $this->post('/projects', $attributes)->assertSessionHasErrors('description');
     }
+
+    /** @test */
+    public function a_user_can_view_a_project(){
+
+        $this->withoutExceptionHandling();
+
+        //create a new test project from the factory
+        $project = factory('App\Project')->create();
+
+        //test the get route to make sure the project is viewable
+        $this->get($project->path())->assertSee($project->title)->assertSee($project->description);
+    }
 }

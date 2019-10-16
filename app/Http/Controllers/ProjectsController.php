@@ -29,4 +29,13 @@ class ProjectsController extends Controller
 
 		return redirect('projects');
     }
+
+    //auto inject the project from the GET URL
+    public function show(Project $project){
+
+    	//find or fail to make sure an exception is thrown
+    	// $project = Project::findOrFail(request('project'));
+
+    	return view('projects.show', compact('project'));
+    }
 }
