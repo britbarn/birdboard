@@ -19,15 +19,23 @@ class ProjectsController extends Controller
 
     	//validate
 
-    	$attributes = request()->validate(['title' => 'required', 'description' => 'required']);
+    	$attributes = request()->validate([
+            'title' => 'required',
+             'description' => 'required'
+          ]);
+
+        // $attributes['owner_id'] = auth()->id();
 
 		//persist
 
-		Project::create($attributes);
+        auth()->user()->projects()->create($attributes);
+
+        // Project::create($attributes);
+
 
 		//redirect
 
-		return redirect('projects');
+		return redirect('/projects');
     }
 
     //auto inject the project from the GET URL

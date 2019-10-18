@@ -13,11 +13,17 @@ class CreateProjectsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('projects');
         Schema::create('projects', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('owner_id');
             $table->string('title');
             $table->text('description');
             $table->timestamps();
+
+            //create foreign key restraint on users table
+            //also make sure that when a user is deleted, all their projects get deleted
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
