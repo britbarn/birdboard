@@ -8,8 +8,9 @@ use App\Project;
 class ProjectsController extends Controller
 {
     public function index(){
-    	//get all projects
-		$projects = Project::all();
+
+    	//get all projects created by this current user
+		$projects = auth()->user()->projects;
 
 		//return them to the view
 		return view('projects.index', compact('projects'));
@@ -44,6 +45,16 @@ class ProjectsController extends Controller
     	//find or fail to make sure an exception is thrown
     	// $project = Project::findOrFail(request('project'));
 
+        if (auth()->user()->isNot($project->owner)) {
+            abort(403);
+        }
+
     	return view('projects.show', compact('project'));
+    }
+
+    public function create(){
+
+        return view('projects.create');
+
     }
 }
